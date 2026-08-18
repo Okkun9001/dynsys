@@ -1,0 +1,34 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused",
+      "-Wpedantic",
+      "-I./src/core",
+      "src/main.c",
+      "-o",
+      "dynsys"
+    ],
+    "directory": "/home/okkun/Projects/c/dynsys",
+    "output": "dynsys"
+  },
+  {
+    "file": "src/core/vmath.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused",
+      "-Wpedantic",
+      "-I./src/core",
+      "src/core/vmath.c",
+      "-o",
+      "dynsys"
+    ],
+    "directory": "/home/okkun/Projects/c/dynsys",
+    "output": "dynsys"
+  }
+]
