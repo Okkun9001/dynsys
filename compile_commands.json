@@ -7,8 +7,26 @@
       "-Wextra",
       "-Wno-unused",
       "-Wpedantic",
+      "-I./include",
       "-I./src/core",
       "src/main.c",
+      "-o",
+      "dynsys"
+    ],
+    "directory": "/home/okkun/Projects/c/dynsys",
+    "output": "dynsys"
+  },
+  {
+    "file": "include/draw.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused",
+      "-Wpedantic",
+      "-I./include",
+      "-I./src/core",
+      "include/draw.c",
       "-o",
       "dynsys"
     ],
@@ -23,6 +41,7 @@
       "-Wextra",
       "-Wno-unused",
       "-Wpedantic",
+      "-I./include",
       "-I./src/core",
       "src/core/vmath.c",
       "-o",

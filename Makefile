@@ -1,15 +1,18 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Wno-unused -Wpedantic \
+				 -I./include \
          -I./src/core
 SANITIZE_FLAGS = -fsanitize=address,undefined -g
 
-SOURCES = src/main.c src/core/vmath.c
+SOURCES = src/main.c \
+						include/draw.c\
+						src/core/vmath.c
 TARGET = dynsys
 TEST_SOURCES = $(wildcard src/test/*.c)
 TEST_TARGET = src/test/test_main
 
 
-.PHONY: all run test sanitize clean
+.PHONY: all run test sanitize clean plot
 
 all: $(TARGET)
 
@@ -30,3 +33,6 @@ sanitize: $(SOURCES)
 
 clean:
 	rm -f $(TARGET) $(TEST_TARGET)
+
+plot: run
+	feh output.ppm &
