@@ -1,8 +1,11 @@
+#include "matrix.h"
 #include "vmath.h"
 #include <assert.h>
 
+#define EPSILON 1e-9
+
 void test_create(void) {
-  Vec v = vec_create(5);
+  Vec v = vec_null(5);
 
   assert(v.size == 5);
 
@@ -13,7 +16,7 @@ void test_create(void) {
 }
 
 void test_copy(void) {
-  Vec a = vec_create(3);
+  Vec a = vec_null(3);
   a.data[0] = 1.0;
   a.data[1] = 2.0;
   a.data[2] = 3.0;
@@ -28,4 +31,65 @@ void test_copy(void) {
 
   vec_destroy(&a);
   vec_destroy(&b);
+}
+
+void test_m_vec_mult(void) {
+  Matrix m = m_create(2, 2);
+  MAT(m, 0, 0) = 1;
+  MAT(m, 0, 1) = 2;
+  MAT(m, 1, 0) = 3;
+  MAT(m, 1, 1) = 4;
+
+  Vec v = vec_create(2, (double[]){1, 2});
+
+  Vec res = m_vec_mul(&m, &v);
+
+  assert(res.data[0] == 5 && res.data[1] == 11);
+  m_destroy(&m);
+  vec_destroy(&v);
+  vec_destroy(&res);
+}
+
+void test_m_mult(void) {
+  Matrix m = m_create(2, 3);
+  m_rand(&m, 1);
+
+  Matrix m2 = m_create(3, 4);
+  m_rand(&m2, 1);
+  Matrix m3 = m_create(4, 1);
+  m_rand(&m3, 1);
+
+  // A(BC)
+  Matrix left = m_mult(&m2, &m3);
+  left = m_mult(&m, &left);
+  // (AB)C
+  Matrix right = m_mult(&m, &m2);
+  right = m_mult(&right, &m3);
+
+  m_destroy(&m);
+  m_destroy(&m2);
+  m_destroy(&m3);
+
+  assert(MAT(left, 0, 0) - MAT(right, 0, 0) < EPSILON);
+  assert(MAT(left, 1, 0) - MAT(right, 1, 0) < EPSILON);
+
+  m_destroy(&left);
+  m_destroy(&right);
+}
+
+void test_transpose(void) {
+  Matrix m = m_create(2, 3);
+  MAT(m, 0, 0) = 1;
+  MAT(m, 0, 1) = 2;
+  MAT(m, 0, 2) = 3;
+  MAT(m, 1, 0) = 4;
+  MAT(m, 1, 1) = 5;
+  MAT(m, 1, 2) = 6;
+
+  m_print(&m);
+  Matrix t = m_transpose(&m);
+  m_print(&t);
+
+  m_destroy(&m);
+  m_destroy(&t);
 }

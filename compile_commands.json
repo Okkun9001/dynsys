@@ -9,6 +9,7 @@
       "-Wpedantic",
       "-I./include",
       "-I./src/core",
+      "-I./src/numerics",
       "src/main.c",
       "-o",
       "dynsys"
@@ -26,6 +27,7 @@
       "-Wpedantic",
       "-I./include",
       "-I./src/core",
+      "-I./src/numerics",
       "include/draw.c",
       "-o",
       "dynsys"
@@ -43,7 +45,44 @@
       "-Wpedantic",
       "-I./include",
       "-I./src/core",
+      "-I./src/numerics",
       "src/core/vmath.c",
+      "-o",
+      "dynsys"
+    ],
+    "directory": "/home/okkun/Projects/c/dynsys",
+    "output": "dynsys"
+  },
+  {
+    "file": "src/core/matrix.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused",
+      "-Wpedantic",
+      "-I./include",
+      "-I./src/core",
+      "-I./src/numerics",
+      "src/core/matrix.c",
+      "-o",
+      "dynsys"
+    ],
+    "directory": "/home/okkun/Projects/c/dynsys",
+    "output": "dynsys"
+  },
+  {
+    "file": "src/numerics/solver.c",
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wno-unused",
+      "-Wpedantic",
+      "-I./include",
+      "-I./src/core",
+      "-I./src/numerics",
+      "src/numerics/solver.c",
       "-o",
       "dynsys"
     ],

@@ -5,6 +5,9 @@ int main(void) {
   printf("Runnning tests...\n");
   test_create();
   test_copy();
+  test_m_vec_mult();
+  test_m_mult();
+  test_transpose();
 
   printf("All tests concluded.\n");
 

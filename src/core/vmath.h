@@ -7,7 +7,8 @@ typedef struct {
   double *data;
 } Vec;
 
-Vec vec_create(size_t size);
+Vec vec_null(size_t size);
+Vec vec_create(size_t size, double v[]);
 Vec vec_copy(Vec *src_v);
 void vec_destroy(Vec *v);
 void vec_print(Vec *v);

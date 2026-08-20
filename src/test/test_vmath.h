@@ -3,5 +3,8 @@
 
 void test_create(void);
 void test_copy(void);
+void test_m_vec_mult(void);
+void test_m_mult(void);
+void test_transpose(void);
 
 #endif
