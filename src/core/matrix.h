@@ -24,4 +24,14 @@ void m_scale(Matrix *m, double scale);
 Vec m_vec_mul(Matrix *m, Vec *v);
 Matrix m_mult(Matrix *m1, Matrix *m2);
 Matrix m_transpose(Matrix *m1);
-#endif // !MATRIX_H
+
+// Linear algebra
+typedef enum {
+  SOLVE_SUCCESS,
+  SOLVE_SINGULAR,
+  SOLVE_DIMENSION_MISMATCH,
+  SOLVE_INVALID_INPUT
+} SolveStatus;
+SolveStatus m_solve(const Matrix *A, const Vec *b,
+                    Vec *x); // TODO: implement gaussian elimination
+#endif                       // !MATRIX_H
