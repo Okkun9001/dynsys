@@ -28,10 +28,10 @@ Matrix m_create(size_t n_row, size_t n_col) {
   return m;
 }
 
-Matrix m_copy(Matrix *m_src) {
+Matrix m_copy(const Matrix *m_src) {
 
   Matrix new = m_create(m_src->n_row, m_src->n_col);
-  memcpy(new.data, m_src->data, m_src->n_col * m_src->n_row);
+  memcpy(new.data, m_src->data, m_src->n_col * m_src->n_row * sizeof(double));
 
   return new;
 }
@@ -166,4 +166,82 @@ Matrix m_add_col(Matrix *m, Vec *col) {
 
 // Linear algebra
 
-SolveStatus m_solve(const Matrix *A, const Vec *b, Vec *x) {}
+double fabs(double a) { return a < 0 ? a * -1 : a; }
+
+void swap_rows(Matrix *m, size_t i1, size_t i2) {
+
+  for (size_t c = 0; c < m->n_col; c++) {
+    double temp = MAT(*m, i1, c);
+    MAT(*m, i1, c) = MAT(*m, i2, c);
+    MAT(*m, i2, c) = temp;
+  }
+}
+
+size_t max_col(const Matrix *m, size_t i_col) {
+  size_t i_max = i_col;
+  for (size_t r = i_col; r < m->n_row; r++) {
+    if (fabs(MAT(*m, r, i_col)) > fabs(MAT(*m, i_max, i_col))) {
+      i_max = r;
+    }
+  }
+  return i_max;
+}
+
+SolveStatus m_solve(const Matrix *A, const Vec *b, Vec *x) {
+  // TODO: Add edge case checking
+
+  Matrix M = m_copy(A);
+  Vec rhs = vec_copy(b);
+
+  for (size_t c = 0; c < M.n_col; c++) {
+    size_t i_pivot = max_col(&M, c); // i of largest
+    if (MAT(M, c, i_pivot) < 1e-9) {
+      fprintf(stderr, "ERROR: near 0 pivot\n");
+      return SOLVE_SINGULAR;
+    }
+    if (i_pivot != c) {
+      swap_rows(&M, c, i_pivot);
+      double tmp = rhs.data[c];
+      rhs.data[c] = rhs.data[i_pivot];
+      rhs.data[i_pivot] = tmp;
+    }
+
+    for (size_t r = c + 1; r < M.n_row; r++) {
+      double m = MAT(M, r, c) / MAT(M, c, c);
+      for (size_t j = c; j < M.n_col; j++) {
+        double mR = m * MAT(M, c, j);
+        MAT(M, r, j) -= mR;
+      }
+
+      rhs.data[r] -= m * rhs.data[c];
+    }
+  }
+  for (int r = x->size - 1; r >= 0; r--) {
+
+    double sum = rhs.data[r];
+    for (size_t j = r + 1; j < x->size; j++) {
+      sum -= MAT(M, r, j) * x->data[j];
+    }
+
+    x->data[r] = sum / MAT(M, r, r);
+  }
+
+  m_destroy(&M);
+  vec_destroy(&rhs);
+  return SOLVE_SUCCESS;
+}
+
+const char *solve_status_str(SolveStatus s) {
+  switch (s) {
+  case SOLVE_SUCCESS:
+    return "SUCCESS";
+  case SOLVE_SINGULAR:
+    return "SINGULAR";
+  case SOLVE_DIMENSION_MISMATCH:
+    return "DIMENSION_MISMATCH";
+  case SOLVE_INVALID_INPUT:
+    return "INVALID_INPUT";
+  default:
+    return "UNKNOWN";
+  }
+}

@@ -143,3 +143,53 @@ void test_add_row(void) {
   vec_destroy(&v);
   m_destroy(&m2);
 }
+
+void test_gaussian_elimination(void) {
+
+  Matrix m = m_create(3, 3);
+  MAT(m, 1, 0) = -3;
+  MAT(m, 1, 1) = -1;
+  MAT(m, 1, 2) = 2;
+  MAT(m, 0, 0) = 2;
+  MAT(m, 0, 1) = 1;
+  MAT(m, 0, 2) = -1;
+  MAT(m, 2, 0) = -2;
+  MAT(m, 2, 1) = 1;
+  MAT(m, 2, 2) = 2;
+  Vec b = vec_create(3, (double[]){8, -11, -3});
+  Vec x = vec_null(3);
+
+  m_solve(&m, &b, &x);
+  assert((x.data[0] - 2.00) < EPSILON);
+  assert((x.data[1] - 3.00) < EPSILON);
+  assert((x.data[2] - -1.00) < EPSILON);
+  vec_destroy(&b);
+  vec_destroy(&x);
+  m_destroy(&m);
+}
+
+void test_gaussian_elimination_random(void) {
+
+  Matrix A = m_create(4, 4);
+  Vec x_original = vec_null(4);
+
+  m_rand(&A, 0);
+  vec_rand(&x_original, 0);
+
+  Vec b = m_vec_mul(&A, &x_original);
+
+  Vec x = vec_null(4);
+  SolveStatus s = m_solve(&A, &b, &x);
+  printf("%s\n", solve_status_str(s));
+
+  Vec error = vec_subtract(&x_original, &x);
+
+  for (size_t i = 0; i < error.size; i++) {
+    assert(error.data[i] < 1e-3);
+  }
+
+  vec_destroy(&error);
+  vec_destroy(&x_original);
+  vec_destroy(&b);
+  m_destroy(&A);
+}

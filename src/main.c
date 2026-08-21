@@ -16,21 +16,22 @@ double square_slope(double x) { return 2 * x; }
 int main(void) {
 
   Matrix m = m_create(3, 3);
-  MAT(m, 0, 0) = -3;
-  MAT(m, 0, 1) = -1;
-  MAT(m, 0, 2) = 2;
-  MAT(m, 1, 0) = 2;
-  MAT(m, 1, 1) = 1;
-  MAT(m, 1, 2) = -1;
+  MAT(m, 1, 0) = -3;
+  MAT(m, 1, 1) = -1;
+  MAT(m, 1, 2) = 2;
+  MAT(m, 0, 0) = 2;
+  MAT(m, 0, 1) = 1;
+  MAT(m, 0, 2) = -1;
   MAT(m, 2, 0) = -2;
   MAT(m, 2, 1) = 1;
   MAT(m, 2, 2) = 2;
-  m_print(&m);
+  Vec b = vec_create(3, (double[]){8, -11, -3});
+  Vec x = vec_null(3);
 
-  Vec v = vec_create(3, (double[]){-11, 8, -3});
-  vec_print(&v);
+  m_solve(&m, &b, &x);
 
-  Matrix m2 = m_add_col(&m, &v);
-  m_print(&m2);
+  vec_destroy(&b);
+  vec_destroy(&x);
+  m_destroy(&m);
   return 0;
 }

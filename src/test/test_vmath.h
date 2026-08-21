@@ -10,5 +10,7 @@ void test_m_mult(void);
 void test_transpose(void);
 void test_add_col(void);
 void test_add_row(void);
+void test_gaussian_elimination(void);
+void test_gaussian_elimination_random(void);
 
 #endif

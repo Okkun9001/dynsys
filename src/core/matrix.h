@@ -16,10 +16,11 @@ Matrix m_null(size_t n_row, size_t n_col);
 Matrix m_create(size_t n_row, size_t n_col);
 Matrix m_add_row(Matrix *m, Vec *row);
 Matrix m_add_col(Matrix *m, Vec *col);
-Matrix m_copy(Matrix *m_src);
+Matrix m_copy(const Matrix *m_src);
 void m_rand(Matrix *m, bool normalized);
 void m_print(Matrix *m);
 void m_destroy(Matrix *m);
+void swap_rows(Matrix *m, size_t i1, size_t i2);
 
 // Operations
 void m_scale(Matrix *m, double scale);
@@ -34,6 +35,7 @@ typedef enum {
   SOLVE_DIMENSION_MISMATCH,
   SOLVE_INVALID_INPUT
 } SolveStatus;
+const char *solve_status_str(SolveStatus s);
 SolveStatus m_solve(const Matrix *A, const Vec *b,
                     Vec *x); // TODO: implement gaussian elimination
 #endif                       // !MATRIX_H

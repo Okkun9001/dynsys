@@ -17,6 +17,16 @@ Vec vec_create(size_t size, double *v) {
   return new;
 }
 
+void vec_rand(Vec *v, bool normalize) {
+
+  for (size_t i = 0; i < v->size; i++) {
+    v->data[i] = rand();
+    if (normalize) {
+      v->data[i] /= RAND_MAX;
+    }
+  }
+}
+
 void vec_destroy(Vec *v) {
   free(v->data);
   v->data = NULL;
@@ -26,12 +36,12 @@ void vec_destroy(Vec *v) {
 void vec_print(Vec *v) {
   printf("[ ");
   for (size_t i = 0; i < v->size; i++) {
-    printf("%.2f ", v->data[i]);
+    printf("%.15f ", v->data[i]);
   }
   printf("]\n");
 }
 
-Vec vec_copy(Vec *src_v) {
+Vec vec_copy(const Vec *src_v) {
   Vec new = vec_create(src_v->size, src_v->data);
 
   if (new.data == NULL) {
@@ -40,4 +50,17 @@ Vec vec_copy(Vec *src_v) {
   }
 
   return new;
+}
+
+Vec vec_subtract(Vec *a, Vec *b) {
+  if (a->size != b->size) {
+    fprintf(stderr, "ERROR: different vecctor length");
+    exit(1);
+  }
+  Vec res = vec_null(a->size);
+
+  for (size_t i = 0; i < res.size; i++) {
+    res.data[i] = a->data[i] - b->data[i];
+  }
+  return res;
 }
