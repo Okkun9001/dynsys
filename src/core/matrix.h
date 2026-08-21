@@ -14,6 +14,8 @@ typedef struct {
 
 Matrix m_null(size_t n_row, size_t n_col);
 Matrix m_create(size_t n_row, size_t n_col);
+Matrix m_add_row(Matrix *m, Vec *row);
+Matrix m_add_col(Matrix *m, Vec *col);
 Matrix m_copy(Matrix *m_src);
 void m_rand(Matrix *m, bool normalized);
 void m_print(Matrix *m);
@@ -28,7 +30,7 @@ Matrix m_transpose(Matrix *m1);
 // Linear algebra
 typedef enum {
   SOLVE_SUCCESS,
-  SOLVE_SINGULAR,
+  SOLVE_SINGULAR, // det(A) = 0
   SOLVE_DIMENSION_MISMATCH,
   SOLVE_INVALID_INPUT
 } SolveStatus;

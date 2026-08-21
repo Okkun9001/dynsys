@@ -8,6 +8,8 @@ int main(void) {
   test_m_vec_mult();
   test_m_mult();
   test_transpose();
+  test_add_col();
+  test_add_row();
 
   printf("All tests concluded.\n");
 

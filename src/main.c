@@ -15,11 +15,22 @@ double square_slope(double x) { return 2 * x; }
 
 int main(void) {
 
-  // export_buffer_as_ppm("output.ppm");
-  double a = 2;
+  Matrix m = m_create(3, 3);
+  MAT(m, 0, 0) = -3;
+  MAT(m, 0, 1) = -1;
+  MAT(m, 0, 2) = 2;
+  MAT(m, 1, 0) = 2;
+  MAT(m, 1, 1) = 1;
+  MAT(m, 1, 2) = -1;
+  MAT(m, 2, 0) = -2;
+  MAT(m, 2, 1) = 1;
+  MAT(m, 2, 2) = 2;
+  m_print(&m);
 
-  double Fa = square(a);
-  double Ea = euler_solve(a, square_slope, 10000);
+  Vec v = vec_create(3, (double[]){-11, 8, -3});
+  vec_print(&v);
 
+  Matrix m2 = m_add_col(&m, &v);
+  m_print(&m2);
   return 0;
 }

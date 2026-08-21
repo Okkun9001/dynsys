@@ -1,6 +1,8 @@
 #include "matrix.h"
 #include "vmath.h"
 #include <assert.h>
+#include <stddef.h>
+#include <stdio.h>
 
 #define EPSILON 1e-9
 
@@ -86,10 +88,58 @@ void test_transpose(void) {
   MAT(m, 1, 1) = 5;
   MAT(m, 1, 2) = 6;
 
-  m_print(&m);
   Matrix t = m_transpose(&m);
-  m_print(&t);
 
   m_destroy(&m);
   m_destroy(&t);
+}
+
+void test_add_col(void) {
+  Matrix m = m_create(3, 3);
+  MAT(m, 0, 0) = -3;
+  MAT(m, 0, 1) = -1;
+  MAT(m, 0, 2) = 2;
+  MAT(m, 1, 0) = 2;
+  MAT(m, 1, 1) = 1;
+  MAT(m, 1, 2) = -1;
+  MAT(m, 2, 0) = -2;
+  MAT(m, 2, 1) = 1;
+  MAT(m, 2, 2) = 2;
+
+  Vec v = vec_create(3, (double[]){-11, 8, -3});
+
+  Matrix m2 = m_add_col(&m, &v);
+
+  for (size_t i = 0; i < v.size; i++) {
+    assert(MAT(m2, i, 3) == v.data[i]);
+  }
+
+  m_destroy(&m);
+  vec_destroy(&v);
+  m_destroy(&m2);
+}
+
+void test_add_row(void) {
+  Matrix m = m_create(3, 3);
+  MAT(m, 0, 0) = -3;
+  MAT(m, 0, 1) = -1;
+  MAT(m, 0, 2) = 2;
+  MAT(m, 1, 0) = 2;
+  MAT(m, 1, 1) = 1;
+  MAT(m, 1, 2) = -1;
+  MAT(m, 2, 0) = -2;
+  MAT(m, 2, 1) = 1;
+  MAT(m, 2, 2) = 2;
+
+  Vec v = vec_create(3, (double[]){-11, 8, -3});
+
+  Matrix m2 = m_add_row(&m, &v);
+
+  for (size_t i = 0; i < v.size; i++) {
+    assert(MAT(m2, 3, i) == v.data[i]);
+  }
+
+  m_destroy(&m);
+  vec_destroy(&v);
+  m_destroy(&m2);
 }
