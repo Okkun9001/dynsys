@@ -4,6 +4,7 @@
 // Vector
 void test_create(void);
 void test_copy(void);
+void test_sum(void);
 // Matrix
 void test_m_vec_mult(void);
 void test_m_mult(void);

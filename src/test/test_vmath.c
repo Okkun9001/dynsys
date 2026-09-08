@@ -35,6 +35,16 @@ void test_copy(void) {
   vec_destroy(&b);
 }
 
+void test_sum(void) {
+
+  Vec v = vec_create(5, (double[]){1, 2, -3, 4.20, 6.9});
+  double expected = 4.2 + 6.9;
+  double res = vec_sum(&v);
+  assert(expected == res);
+
+  vec_destroy(&v);
+}
+
 void test_m_vec_mult(void) {
   Matrix m = m_create(2, 2);
   MAT(m, 0, 0) = 1;

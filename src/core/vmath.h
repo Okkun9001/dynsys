@@ -16,6 +16,7 @@ void vec_destroy(Vec *v);
 void vec_print(Vec *v);
 
 // Operations
+double vec_sum(const Vec *v);
 void vec_scale(Vec *v);
 Vec vec_subtract(Vec *a, Vec *b);
 // 2D

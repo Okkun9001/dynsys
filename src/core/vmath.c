@@ -64,3 +64,11 @@ Vec vec_subtract(Vec *a, Vec *b) {
   }
   return res;
 }
+
+double vec_sum(const Vec *v) {
+  double sum = 0;
+  for (size_t i = 0; i < v->size; i++) {
+    sum += v->data[i];
+  }
+  return sum;
+}

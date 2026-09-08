@@ -2,13 +2,15 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Wno-unused -Wpedantic \
 				 -I./include \
          -I./src/core \
-				 -I./src/numerics
+				 -I./src/numerics \
+				 -I./src/models
 SANITIZE_FLAGS = -fsanitize=address,undefined -g
 
 SOURCES = src/main.c \
 						include/draw.c\
 						src/core/vmath.c \
 						src/core/matrix.c \
+						src/models/sir.c \
 						src/numerics/solver.c
 TARGET = dynsys
 TEST_SOURCES = $(wildcard src/test/*.c)
